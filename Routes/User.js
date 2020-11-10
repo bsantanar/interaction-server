@@ -1,23 +1,27 @@
 const express = require('express')
 const router = express.Router();
 const { checkToken } = require('../Middlewares/validateToken');
-const db = require('../config/db');
+const User = require('../Models/User');
 
-router.get('/bySku/:key', checkToken, async (req, res) => {
+router.get('/:id', checkToken, async (req, res) => {
     try {
-        const sku = req.params.key;
-        return res.status(200).json({ ok:true, message: 'Fetched from ripley api', data});
+        const user = req.params.id;
+        return res.status(200).json({ ok: true, message: 'User fetched'});
     } catch (e) {
-        return res.status(500).json({ok: false, message: 'Internal server Error', data: e.response.data})
+        return res.status(500).json({ ok: false, message: 'Internal server Error', data: e });
     }
 });
 
-router.get('/:key', checkToken, async (req, res) => {
+router.post('/', checkToken, async (req, res) => {
     try {
-        const products = req.params.key;
-        return res.status(200).json({ ok:true, message: 'Fetched from ripley api', data});
+        const body = req.body;
+        console.log("Creating user", body)
+        let newUser = null;
+        await User.create(body).then( doc => newUser = doc );
+        return res.status(200).json({ ok:true, message: 'Created user', newUser });
     } catch (e) {
-        return res.status(500).json({ok: false, message: 'Internal server Error', data: e.response.data})
+        console.error("ERROR", e);
+        return res.status(500).json({ ok: false, message: 'Internal server Error', data: e });
     }
 });
 
