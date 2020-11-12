@@ -1,13 +1,25 @@
 const Joi = require('joi');
 const schemas = {
   update: Joi.object().keys({
-    condition: Joi.object().required(),
-    data: Joi.object().required()
+    condition: Joi.object().required().min(1),
+    data: Joi.object().required().min(1)
   }),
   user: Joi.object().keys({
-      name: Joi.string().required(),
-      email: Joi.string().email().required(),
-      password: Joi.string().required()
+      name: Joi.string().required().min(1),
+      email: Joi.string().email().required().min(5),
+      password: Joi.string().required().min(5)
+  }),
+  publication: Joi.object().keys({
+    title: Joi.string().required(),
+    year: Joi.number().required().min(1800).max(2200),
+    author: Joi.string().required().min(1),
+    description: Joi.string().optional().min(3)
+  }),
+  member: Joi.object().keys({
+    name: Joi.string().required().min(2),
+    lastname: Joi.string().required().min(2),
+    description: Joi.optional().min(5),
+    degree: Joi.optional().min(2)
   })
 };
 module.exports = schemas;
