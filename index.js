@@ -8,6 +8,7 @@ const app = express();
 const user = require('./Routes/user');
 const publication = require('./Routes/Publication');
 const member = require('./Routes/Member');
+const project = require('./Routes/Project');
 
 const port = process.env.PORT;
 // Parse request body as JSON
@@ -18,6 +19,7 @@ app.use(cors());
 app.use('/api/user', user);
 app.use('/api/publication', publication);
 app.use('/api/member', member);
+app.use('/api/project', project);
 
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err, res) => {
     if (err) throw err;

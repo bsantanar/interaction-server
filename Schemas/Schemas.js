@@ -1,4 +1,5 @@
 const Joi = require('joi');
+
 const schemas = {
   update: Joi.object().keys({
     condition: Joi.object().required().min(1),
@@ -18,8 +19,13 @@ const schemas = {
   member: Joi.object().keys({
     name: Joi.string().required().min(2),
     lastname: Joi.string().required().min(2),
-    description: Joi.optional().min(5),
-    degree: Joi.optional().min(2)
+    description: Joi.string().min(5),
+    degree: Joi.string().min(2)
+  }),
+  project: Joi.object().keys({
+    projectName: Joi.string().required().min(2),
+    description: Joi.string().required().min(2)
   })
 };
+
 module.exports = schemas;

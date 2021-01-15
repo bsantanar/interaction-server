@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../Models/User');
 const { checkToken } = require('../Middlewares/validateToken');
 const Schemas = require('../Schemas/Schemas');
+const bcrypt = require('bcryptjs');
 
 router.get('/', checkToken, async (req, res) => {
     try {
@@ -24,6 +25,8 @@ router.post('/', checkToken, async (req, res) => {
         console.log("Creating user", body)
         const { error } = Schemas.user.validate(body);
         if(error) return res.status(400).json({ ok:false, message: error.message, data: null });
+        const salt = bcrypt.genSaltSync();
+        body.password = bcrypt.hashSync(body.password, salt);
         let newUser = null;
         await User.create(body).then( doc => newUser = doc );
         return res.status(200).json({ ok: true, message: 'Created user', data: newUser });
@@ -40,6 +43,10 @@ router.put('/', checkToken, async (req, res) => {
         if(error) return res.status(400).json({ ok:false, message: error.message, data: null });
         console.log("Updating user", body);
         const { condition, data } = body;
+        if(data.password && data.password.length > 5){
+            const salt = bcrypt.genSaltSync();
+            body.password = bcrypt.hashSync(body.password, salt);
+        }
         let newUser = null;
         await User.findOneAndUpdate(condition, data, { new: true }).then( doc => newUser = doc );
         if(!newUser){
