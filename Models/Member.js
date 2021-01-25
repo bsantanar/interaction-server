@@ -2,21 +2,22 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-
 const memberSchema = new Schema({
-    name: {
+    fullName: {
         type: String,
-        required: [true, 'name is necessary']
-    },
-    lastname: {
-        type: String,
-        required: [true, 'lastname is necessary']
-    },
-    description: {
-        type: String
+        required: [true, 'fullname is necessary']
     },
     degree: {
-        type: String
+        type: String,
+        required: [true, 'degree is required']
+    },
+    birthdate: {
+        type: Date,
+        required: [true, 'birthdate is required']
+    },
+    projectsIds: {
+        type: [String],
+        required: [true, 'projects are required']
     }
 });
 

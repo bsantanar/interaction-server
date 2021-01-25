@@ -3,18 +3,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-const publicationSchema = new Schema({
+const activitySchema = new Schema({
     title: {
         type: String,
         required: [true, 'title is necessary']
     },
-    year: {
-        type: Number,
-        required: [true, 'year is necessary']
-    },
-    author: {
-        type: String,
-        required: [true, 'author is necessary']
+    date: {
+        type: Date,
+        required: [true, 'date is necessary']
     },
     description: {
         type: String
@@ -25,4 +21,4 @@ const publicationSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Publication', publicationSchema);
+module.exports = mongoose.model('Activity', activitySchema);

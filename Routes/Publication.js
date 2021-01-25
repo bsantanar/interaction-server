@@ -8,7 +8,7 @@ router.get('/', checkToken, async (req, res) => {
     try {
         const { params } = req;
         let publication = null;
-        await Publication.findOne(params).then( doc => publication = doc );
+        await Publication.find(params).then( doc => publication = doc );
         if(!publication){
             return res.status(400).json({ ok: false, message: 'Publication not found', data: publication });
         }

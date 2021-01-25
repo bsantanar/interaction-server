@@ -14,17 +14,24 @@ const schemas = {
     title: Joi.string().required(),
     year: Joi.number().required().min(1800).max(2200),
     author: Joi.string().required().min(1),
-    description: Joi.string().optional().min(3)
+    description: Joi.string().optional().min(3),
+    projectId: Joi.string().required()
   }),
   member: Joi.object().keys({
-    name: Joi.string().required().min(2),
-    lastname: Joi.string().required().min(2),
-    description: Joi.string().min(5),
-    degree: Joi.string().min(2)
+    fullName: Joi.string().required().min(2),
+    degree: Joi.string().min(2),
+    birthdate: Joi.date().required(),
+    projectsIds: Joi.array().items(Joi.string()).required().min(1)
   }),
   project: Joi.object().keys({
-    projectName: Joi.string().required().min(2),
+    name: Joi.string().required().min(2),
     description: Joi.string().required().min(2)
+  }),
+  activity: Joi.object().keys({
+    title: Joi.string().required().min(5),
+    date: Joi.date().required(),
+    description: Joi.string().required(),
+    projectId: Joi.string().required()
   })
 };
 
