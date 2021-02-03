@@ -10,6 +10,7 @@ const publication = require('./Routes/Publication');
 const member = require('./Routes/Member');
 const project = require('./Routes/Project');
 const activity = require('./Routes/Activity');
+const resource = require('./Routes/Resource');
 
 const port = process.env.PORT;
 // Parse request body as JSON
@@ -22,6 +23,7 @@ app.use('/api/publication', publication);
 app.use('/api/member', member);
 app.use('/api/project', project);
 app.use('/api/activity', activity);
+app.use('/api/resource', resource);
 
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err, res) => {
     if (err) throw err;

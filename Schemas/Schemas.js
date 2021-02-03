@@ -21,7 +21,8 @@ const schemas = {
     fullName: Joi.string().required().min(2),
     degree: Joi.string().min(2),
     birthdate: Joi.date().required(),
-    projectsIds: Joi.array().items(Joi.string()).required().min(1)
+    projectsIds: Joi.array().items(Joi.string()).required().min(1),
+    image: Joi.string().optional()
   }),
   project: Joi.object().keys({
     name: Joi.string().required().min(2),
@@ -31,7 +32,15 @@ const schemas = {
     title: Joi.string().required().min(5),
     date: Joi.date().required(),
     description: Joi.string().required(),
-    projectId: Joi.string().required()
+    projectId: Joi.string().required(),
+    image: Joi.string().optional()
+  }),
+  resource: Joi.object().keys({
+    title: Joi.string().required().min(5),
+    description: Joi.string().required(),
+    projectId: Joi.string().required(),
+    url: Joi.string().required(),
+    image: Joi.string().optional()
   })
 };
 

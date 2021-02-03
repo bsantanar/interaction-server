@@ -18,6 +18,9 @@ const memberSchema = new Schema({
     projectsIds: {
         type: [String],
         required: [true, 'projects are required']
+    },
+    image: {
+        type: Buffer
     }
 });
 

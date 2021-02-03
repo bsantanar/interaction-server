@@ -18,6 +18,9 @@ const activitySchema = new Schema({
     projectId: {
         type: mongoose.Types.ObjectId,
         required: [true, 'Project is necessary']
+    },
+    image: {
+        type: Buffer
     }
 });
 
