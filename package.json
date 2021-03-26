@@ -4,6 +4,7 @@
   "description": "Server for interaction dashboard",
   "main": "index.js",
   "scripts": {
+    "start": "node index",
     "test": "jest"
   },
   "author": "Bastian Santana",
