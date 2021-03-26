@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 require('dotenv').config();
 const app = express();
 
-const user = require('./Routes/user');
+const user = require('./Routes/User');
 const publication = require('./Routes/Publication');
 const member = require('./Routes/Member');
 const project = require('./Routes/Project');
