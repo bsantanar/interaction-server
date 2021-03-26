@@ -4,11 +4,38 @@ const Publication = require('../Models/Publication');
 const { checkToken } = require('../Middlewares/validateToken');
 const Schemas = require('../Schemas/Schemas');
 
-router.get('/', checkToken, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
+        // let user = req.user.data
         const { params } = req;
         let publication = null;
-        await Publication.find(params).then( doc => publication = doc );
+        let query = {...params}
+        // if(user.userType > 1) query['$or'] = [
+        //     {projectId: {$in: user.projects}},
+        //     {toolsId: {$in: user.tools}}
+        // ]
+        await Publication.find(query).populate('projectId category')
+                .then( doc => publication = doc );
+        if(!publication){
+            return res.status(400).json({ ok: false, message: 'Publication not found', data: publication });
+        }
+        return res.status(200).json({ ok: true, message: 'Publication fetched', data: publication});
+    } catch (e) {
+        return res.status(500).json({ ok: false, message: 'Internal server Error', data: e });
+    }
+});
+
+router.get('/dashboard', checkToken, async (req, res) => {
+    try {
+        let user = req.user.data
+        const { params } = req;
+        let publication = null;
+        let query = {...params}
+        if(user.userType > 1) query['$or'] = [
+            {projectId: {$in: user.projects}}
+        ]
+        await Publication.find(query).populate('projectId category')
+                .then( doc => publication = doc );
         if(!publication){
             return res.status(400).json({ ok: false, message: 'Publication not found', data: publication });
         }
@@ -20,6 +47,8 @@ router.get('/', checkToken, async (req, res) => {
 
 router.post('/', checkToken, async (req, res) => {
     try {
+        let user = req.user.data
+        if(user.userType > 2) return res.status(500).json({ ok: false, message: 'No permissions', data: e });
         const body = req.body;
         console.log("Creating publication", body)
         const { error } = Schemas.publication.validate(body);
@@ -35,6 +64,8 @@ router.post('/', checkToken, async (req, res) => {
 
 router.put('/', checkToken, async (req, res) => {
     try {
+        let user = req.user.data
+        if(user.userType > 2) return res.status(500).json({ ok: false, message: 'No permissions', data: e });
         const body = req.body;
         const { error } = Schemas.update.validate(body);
         if(error) return res.status(400).json({ ok:false, message: error.message, data: null });
@@ -46,6 +77,27 @@ router.put('/', checkToken, async (req, res) => {
             return res.status(400).json({ ok: false, message: 'Publication not found', data: publication });
         }
         return res.status(200).json({ ok: true, message: 'Updated publication', data: publication });
+    } catch (e) {
+        console.error("ERROR", e);
+        return res.status(500).json({ ok: false, message: 'Internal server Error', data: e });
+    }
+});
+
+
+router.delete('/', checkToken, async (req, res) => {
+    try {
+        let user = req.user.data
+        if(user.userType > 2) return res.status(500).json({ ok: false, message: 'No permissions', data: e });
+        const body = req.body;
+        const { error } = Schemas.delete.validate(body);
+        if(error) return res.status(400).json({ ok:false, message: error.message, data: null });
+        console.log("Deleting publication", body);
+        let publication = null;
+        await Publication.deleteOne(body).then( doc => publication = doc );
+        if(!publication){
+            return res.status(400).json({ ok: false, message: 'Publication not found', data: publication });
+        }
+        return res.status(200).json({ ok: true, message: 'Deleted publication', data: publication });
     } catch (e) {
         console.error("ERROR", e);
         return res.status(500).json({ ok: false, message: 'Internal server Error', data: e });

@@ -4,11 +4,33 @@ const Activity = require('../Models/Activity');
 const { checkToken } = require('../Middlewares/validateToken');
 const Schemas = require('../Schemas/Schemas');
 
-router.get('/', checkToken, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const { params } = req;
         let activity = null;
-        await Activity.find(params).then( doc => activity = doc );
+        // let user = req.user.data
+        let query = {...params}
+        //if(user.userType > 1) query['projectId'] = {$in: user.projects}
+        await Activity.find(query).populate('projectId category')
+                .then( doc => activity = doc );
+        if(!activity){
+            return res.status(400).json({ ok: false, message: 'Activity not found', data: activity });
+        }
+        return res.status(200).json({ ok: true, message: 'Activity fetched', data: activity});
+    } catch (e) {
+        return res.status(500).json({ ok: false, message: 'Internal server Error', data: e });
+    }
+});
+
+router.get('/dashboard', checkToken, async (req, res) => {
+    try {
+        const { params } = req;
+        let activity = null;
+        let user = req.user.data
+        let query = {...params}
+        if(user.userType > 1) query['projectId'] = {$in: user.projects}
+        await Activity.find(query).populate('projectId category')
+                .then( doc => activity = doc );
         if(!activity){
             return res.status(400).json({ ok: false, message: 'Activity not found', data: activity });
         }
@@ -46,6 +68,25 @@ router.put('/', checkToken, async (req, res) => {
             return res.status(400).json({ ok: false, message: 'Activity not found', data: activity });
         }
         return res.status(200).json({ ok: true, message: 'Updated activity', data: activity });
+    } catch (e) {
+        console.error("ERROR", e);
+        return res.status(500).json({ ok: false, message: 'Internal server Error', data: e });
+    }
+});
+
+
+router.delete('/', checkToken, async (req, res) => {
+    try {
+        const body = req.body;
+        const { error } = Schemas.delete.validate(body);
+        if(error) return res.status(400).json({ ok:false, message: error.message, data: null });
+        console.log("Deleting activity", body);
+        let activity = null;
+        await Activity.deleteOne(body).then( doc => activity = doc );
+        if(!activity){
+            return res.status(400).json({ ok: false, message: 'Activity not found', data: activity });
+        }
+        return res.status(200).json({ ok: true, message: 'Deleted activity', data: activity });
     } catch (e) {
         console.error("ERROR", e);
         return res.status(500).json({ ok: false, message: 'Internal server Error', data: e });

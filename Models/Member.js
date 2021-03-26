@@ -11,16 +11,36 @@ const memberSchema = new Schema({
         type: String,
         required: [true, 'degree is required']
     },
-    birthdate: {
-        type: Date,
-        required: [true, 'birthdate is required']
-    },
-    projectsIds: {
-        type: [String],
-        required: [true, 'projects are required']
-    },
+    projectsIds: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Project'
+    }],
     image: {
         type: Buffer
+    },
+    active: {
+        type: Boolean,
+        required: [true, 'active is required']
+    },
+    contributionDate: {
+        type: Date,
+        required: [true, 'contribution date is required']
+    },
+    description: {
+        type: String
+    },
+    link: {
+        type: String
+    },
+    email: {
+        type: String,
+        required: [true, 'email is required'],
+        unique: true
+    },
+    category: {
+        type: mongoose.Types.ObjectId,
+        required: [true, 'category is necessary'],
+        ref: 'Category'
     }
 });
 

@@ -12,6 +12,13 @@ const projectSchema = new Schema({
     description: {
         type: String,
         required: [true, 'description is necessary']
+    },
+    link: {
+        type: String,
+        required: [true, 'link is necessary']
+    },
+    image: {
+        type: Buffer
     }
 });
 

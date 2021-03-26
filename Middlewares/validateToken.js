@@ -1,6 +1,6 @@
-  
+const jwt = require('jsonwebtoken');
+
 exports.checkToken = async (req, res, next) => {
-    return next();
     let token = null;
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         token = req.headers.authorization.split(' ')[1];
@@ -9,7 +9,8 @@ exports.checkToken = async (req, res, next) => {
             .send({ ok: false, message: 'Not authorized. Token not found.' });
     }
     try {
-        const userInfo = await admin.auth().verifyIdToken(token);
+        let userInfo = jwt.verify(token, '1n7er4c7i0n.2021')
+        req.user = userInfo
         //console.log(userInfo);
         return next();
     } catch (e) {

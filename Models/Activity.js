@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const CONSTANTS = require('../Config/Constants')
 
 const Schema = mongoose.Schema;
 
@@ -10,17 +11,25 @@ const activitySchema = new Schema({
     },
     date: {
         type: Date,
-        required: [true, 'date is necessary']
+        default: Date.now()
     },
     description: {
         type: String
     },
     projectId: {
         type: mongoose.Types.ObjectId,
-        required: [true, 'Project is necessary']
+        ref: 'Project'
     },
     image: {
         type: Buffer
+    },
+    link: {
+        type: String
+    },
+    category: {
+        type: mongoose.Types.ObjectId,
+        required: [true, 'category is necessary'],
+        ref: 'Category'
     }
 });
 

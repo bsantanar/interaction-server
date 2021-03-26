@@ -12,8 +12,9 @@ const resourceSchema = new Schema({
         required: [true, 'description is required']
     },
     projectId: {
-        type: String,
-        required: [true, 'projectId is required']
+        type: Schema.Types.ObjectId,
+        required: [true, 'projectId is required'],
+        ref: 'Project'
     },
     url: {
         type: String,
