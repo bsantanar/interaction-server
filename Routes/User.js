@@ -81,6 +81,23 @@ router.post('/', checkToken, async (req, res) => {
     }
 });
 
+router.post('/create', async (req, res) => {
+    try {
+        const body = req.body;
+        console.log("Creating user", body)
+        const { error } = Schemas.user.validate(body);
+        if(error) return res.status(400).json({ ok:false, message: error.message, data: null });
+        const salt = bcrypt.genSaltSync();
+        body.password = bcrypt.hashSync(body.password, salt);
+        let newUser = null;
+        await User.create(body).then( doc => newUser = doc );
+        return res.status(200).json({ ok: true, message: 'Created user', data: newUser });
+    } catch (e) {
+        console.error("ERROR", e);
+        return res.status(500).json({ ok: false, message: 'Internal server Error', data: e });
+    }
+});
+
 router.put('/', checkToken, async (req, res) => {
     try {
         let user = req.user.data
