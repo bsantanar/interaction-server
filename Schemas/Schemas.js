@@ -12,7 +12,7 @@ const schemas = {
       email: Joi.string().email().required(),
       password: Joi.string().required(),
       userType: Joi.number().required(),
-      projects: Joi.array().items(Joi.string()).required(),
+      projects: Joi.array().items(Joi.string()).optional(),
   }),
   publication: Joi.object().keys({
     title: Joi.string().required(),
