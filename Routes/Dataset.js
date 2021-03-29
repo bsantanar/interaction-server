@@ -4,14 +4,13 @@ const Dataset = require('../Models/Dataset');
 const { checkToken } = require('../Middlewares/validateToken');
 const Schemas = require('../Schemas/Schemas');
 
-router.get('/', checkToken, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const { params } = req;
         let dataset = null;
-        let user = req.user.data
         let query = {...params}
-        if(user.userType > 1) return res.status(403).json({ ok: false, message: 'No permissions', data: e });
-        await Dataset.find(query).then( doc => dataset = doc );
+        await Dataset.find(query).populate('publications')
+                .then( doc => dataset = doc );
         if(!dataset){
             return res.status(400).json({ ok: false, message: 'Dataset not found', data: dataset });
         }

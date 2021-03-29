@@ -14,6 +14,7 @@ const activity = require('./Routes/Activity');
 const resource = require('./Routes/Resource');
 // const tool = require('./Routes/Tool');
 const dataset = require('./Routes/Dataset');
+const requestDataset = require('./Routes/RequestDataset');
 const category = require('./Routes/Category');
 
 const port = process.env.PORT;
@@ -31,6 +32,7 @@ app.use('/api/activity', activity);
 app.use('/api/resource', resource);
 // app.use('/api/tool', tool);
 app.use('/api/dataset', dataset);
+app.use('/api/request-dataset', requestDataset);
 app.use('/api/category', category);
 
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err, res) => {

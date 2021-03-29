@@ -64,11 +64,21 @@ const schemas = {
   }),
   dataset: Joi.object().keys({
     name: Joi.string().required(),
-    description: Joi.string().required()
+    description: Joi.string().required(),
+    version: Joi.number().optional(),
+    tags: Joi.array().items(Joi.string()).required(),
+    publications: Joi.array().items(Joi.string()).required(),
+    link: Joi.string().optional().allow(''),
+    permission: Joi.boolean().optional()
   }),
   category: Joi.object().keys({
     name: Joi.string().required(),
     section: Joi.string().valid(...CONSTANTS.CATEGORIES_SECTIONS)
+  }),
+  requestDataset: Joi.object().keys({
+    fullName: Joi.string().required(),
+    description: Joi.string().required(),
+    email: Joi.string().email().required()
   })
 };
 

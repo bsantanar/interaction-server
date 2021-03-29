@@ -6,8 +6,7 @@ const Schema = mongoose.Schema;
 const datasetSchema = new Schema({
     name: {
         type: String,
-        required: [true, 'dataset name is necessary'],
-        unique: true
+        required: [true, 'dataset name is necessary']
     },
     description: {
         type: String,
@@ -24,7 +23,8 @@ const datasetSchema = new Schema({
     }],
     publications: [{
         type: mongoose.Types.ObjectId,
-        required: [true, 'publications are necessary']
+        required: [true, 'publications are necessary'],
+        ref: 'Publication'
     }],
     link: {
         type: String
