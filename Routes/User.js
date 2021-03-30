@@ -29,7 +29,7 @@ router.post('/login', async(req, res) => {
         // Buscamos email en DB
         const user = await User.findOne({email: body.email}, 
             {}, {lean:true});
-    
+        console.log("try login", user)
         // Evaluamos si existe el usuario en DB
         if(!user){
             console.log("user not found")
@@ -47,10 +47,12 @@ router.post('/login', async(req, res) => {
         }
         delete user.password
         // Generar Token
+        console.log("trying jwt")
         let token = jwt.sign({
             data: user
         }, '1n7er4c7i0n.2021', { expiresIn: 60 * 60 * 24}) // Expira en 30 días
         // Pasó las validaciones
+        console.log("send response")
         return res.status(200).json({
             ok: true,
             message: 'Login Successfull',
