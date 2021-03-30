@@ -39,7 +39,7 @@ router.post('/login', async(req, res) => {
     
         // Evaluamos la contraseña correcta
         if( !bcrypt.compareSync(body.password, user.password) ){
-            return res.status(400).json({
+            return res.status(401).json({
             mensaje: 'Usuario o contraseña inválidos',
             });
         }
