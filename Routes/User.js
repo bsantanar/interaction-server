@@ -32,6 +32,7 @@ router.post('/login', async(req, res) => {
     
         // Evaluamos si existe el usuario en DB
         if(!user){
+            console.log("user not found")
             return res.status(400).json({
                 mensaje: 'Usuario o contraseña inválidos',
             });
@@ -39,7 +40,8 @@ router.post('/login', async(req, res) => {
     
         // Evaluamos la contraseña correcta
         if( !bcrypt.compareSync(body.password, user.password) ){
-            return res.status(401).json({
+            console.log("bad password")
+            return res.status(400).json({
             mensaje: 'Usuario o contraseña inválidos',
             });
         }
