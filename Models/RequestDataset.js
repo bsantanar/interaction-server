@@ -16,6 +16,14 @@ const requestDatasetSchema = new Schema({
         type: String,
         required: [true, 'version is necessary']
     },
+    datasetName: {
+        type: String,
+        required: [true, 'name is necessary']
+    },
+    datasetVersion: {
+        type: Number,
+        required: [true, 'version is required']
+    },
     date: {
         type: Date,
         default: Date.now()

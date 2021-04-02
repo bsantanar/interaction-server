@@ -78,7 +78,9 @@ const schemas = {
   requestDataset: Joi.object().keys({
     fullName: Joi.string().required(),
     description: Joi.string().required(),
-    email: Joi.string().email().required()
+    email: Joi.string().email().required(),
+    datasetName: Joi.string().required(),
+    datasetVersion: Joi.number().required()
   })
 };
 

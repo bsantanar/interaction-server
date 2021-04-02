@@ -1,8 +1,10 @@
 const express = require('express')
+const nodemailer = require("nodemailer");
 const router = express.Router();
 const RequestDataset = require('../Models/RequestDataset');
-const { checkToken } = require('../Middlewares/validateToken');
 const Schemas = require('../Schemas/Schemas');
+const CONSTANTS = require('../Config/Constants')
+const transporter = nodemailer.createTransport(CONSTANTS.SMTP_CONFIG)
 
 router.get('/', async (req, res) => {
     try {
@@ -28,6 +30,15 @@ router.post('/', async (req, res) => {
         if(error) return res.status(400).json({ ok:false, message: error.message, data: null });
         let requestDataset = null;
         await RequestDataset.create(body).then( doc => requestDataset = doc );
+        const mailData = {
+            from: process.env.MAIL,  // sender address
+            to: process.env.TO_EMAIL,   // list of receivers
+            subject: `Nueva Solicitud en ${body.datasetName} - ${body.datasetVersion}`,
+            // text: 'That was easy!',
+            html: `<b>Dataset: </b>${body.datasetName}<br><b>Version: </b>${body.datasetVersion}<br><b>Nombre: </b>${body.fullName}<br><b>Email: </b> ${body.email}<br><b>Solicitud: </b>${body.description}`,
+        };
+        let info = await transporter.sendMail(mailData)
+        console.log(info)
         return res.status(200).json({ ok: true, message: 'Created requestDataset', data: requestDataset });
     } catch (e) {
         console.error("ERROR", e);
