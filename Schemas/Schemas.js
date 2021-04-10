@@ -19,7 +19,7 @@ const schemas = {
     year: Joi.number().required().min(1800).max(2200),
     author: Joi.string().required().min(1),
     editorial: Joi.string().optional().allow(''),
-    category: Joi.string().required(),
+    category: Joi.array().items(Joi.string()).required(),
     description: Joi.string().optional().min(3),
     projectId: Joi.array().items(Joi.string()).required(),
     doi: Joi.string().optional().uri().allow('')
@@ -34,7 +34,7 @@ const schemas = {
     description: Joi.string().optional().allow(''),
     link: Joi.string().optional().allow(''),
     email: Joi.string().email().required(),
-    category: Joi.string().required()
+    category: Joi.array().items(Joi.string()).required(),
   }),
   project: Joi.object().keys({
     name: Joi.string().required(),
@@ -46,7 +46,7 @@ const schemas = {
     title: Joi.string().required(),
     date: Joi.date().required(),
     description: Joi.string().required(),
-    category: Joi.string().required(),
+    category: Joi.array().items(Joi.string()).required(),
     projectId: Joi.string().required(),
     image: Joi.string().optional(),
     link: Joi.string().optional().empty('')

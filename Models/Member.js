@@ -37,11 +37,11 @@ const memberSchema = new Schema({
         required: [true, 'email is required'],
         unique: true
     },
-    category: {
+    category: [{
         type: mongoose.Types.ObjectId,
         required: [true, 'category is necessary'],
         ref: 'Category'
-    }
+    }]
 });
 
 module.exports = mongoose.model('Member', memberSchema);

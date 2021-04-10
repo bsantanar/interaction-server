@@ -26,11 +26,11 @@ const activitySchema = new Schema({
     link: {
         type: String
     },
-    category: {
+    category: [{
         type: mongoose.Types.ObjectId,
         required: [true, 'category is necessary'],
         ref: 'Category'
-    }
+    }]
 });
 
 module.exports = mongoose.model('Activity', activitySchema);

@@ -26,11 +26,11 @@ const publicationSchema = new Schema({
     doi: {
         type: String
     },
-    category: {
+    category: [{
         type: mongoose.Types.ObjectId,
         required: [true, 'category is necessary'],
         ref: 'Category'
-    },
+    }],
     projectId: [{
         type: mongoose.Types.ObjectId,
         ref: 'Project'
