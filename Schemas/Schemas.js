@@ -21,7 +21,7 @@ const schemas = {
     editorial: Joi.string().optional().allow(''),
     category: Joi.array().items(Joi.string()).required(),
     description: Joi.string().optional().min(3),
-    projectId: Joi.array().items(Joi.string()).required(),
+    projectId: Joi.array().items(Joi.string()),
     doi: Joi.string().optional().uri().allow('')
   }),
   member: Joi.object().keys({
