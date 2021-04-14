@@ -20,7 +20,7 @@ const category = require('./Routes/Category');
 const port = process.env.PORT;
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json({limit: '150kb'}));
+app.use(bodyParser.json({limit: '5mb'}));
 app.use(express.json());
 app.use(cors());
 
