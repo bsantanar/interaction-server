@@ -19,6 +19,13 @@ const projectSchema = new Schema({
     },
     image: {
         type: Buffer
+    },
+    yearInit: {
+        type: Number,
+        required: [true, 'year is necessary']
+    },
+    yearEnd: {
+        type: Number
     }
 });
 

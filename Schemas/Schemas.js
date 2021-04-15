@@ -40,6 +40,8 @@ const schemas = {
     name: Joi.string().required(),
     description: Joi.string().required().min(2),
     link: Joi.string().uri().required(),
+    yearInit: Joi.number().required().min(1800).max(2200),
+    yearEnd: Joi.number().optional().min(1800).max(2200).allow(null),
     image: Joi.string().optional()
   }),
   activity: Joi.object().keys({
