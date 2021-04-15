@@ -34,8 +34,7 @@ const memberSchema = new Schema({
     },
     email: {
         type: String,
-        required: [true, 'email is required'],
-        unique: true
+        required: [true, 'email is required']
     },
     category: [{
         type: mongoose.Types.ObjectId,
