@@ -27,13 +27,13 @@ const schemas = {
   member: Joi.object().keys({
     fullName: Joi.string().required(),
     degree: Joi.string().min(2),
-    projectsIds: Joi.array().items(Joi.string()).required(),
+    projectsIds: Joi.array().items(Joi.string()).optional(),
     image: Joi.string().optional(),
     active: Joi.boolean().required(),
     contributionDate: Joi.date().required(),
     description: Joi.string().optional().allow(''),
     link: Joi.string().optional().allow(''),
-    email: Joi.string().email().required(),
+    email: Joi.string().email().optional().allow(''),
     category: Joi.array().items(Joi.string()).required(),
   }),
   project: Joi.object().keys({
