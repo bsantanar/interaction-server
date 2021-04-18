@@ -7,9 +7,8 @@ const Schemas = require('../Schemas/Schemas');
 router.get('/', async (req, res) => {
     try {
         // let user = req.user.data
-        const { params } = req;
+        const { query } = req;
         let publication = null;
-        let query = {...params}
         // if(user.userType > 1) query['$or'] = [
         //     {projectId: {$in: user.projects}},
         //     {toolsId: {$in: user.tools}}
@@ -72,7 +71,9 @@ router.put('/', checkToken, async (req, res) => {
         console.log("Updating publication", body);
         const { condition, data } = body;
         let publication = null;
-        await Publication.findOneAndUpdate(condition, data, { new: true }).then( doc => publication = doc );
+        await Publication.findOneAndUpdate(condition, data, { new: true })
+                            .populate('projectId category', '_id name')
+                            .then( doc => publication = doc );
         if(!publication){
             return res.status(400).json({ ok: false, message: 'Publication not found', data: publication });
         }

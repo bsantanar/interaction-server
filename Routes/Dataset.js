@@ -6,9 +6,8 @@ const Schemas = require('../Schemas/Schemas');
 
 router.get('/', async (req, res) => {
     try {
-        const { params } = req;
+        const { query } = req;
         let dataset = null;
-        let query = {...params}
         await Dataset.find(query).populate('publications')
                 .then( doc => dataset = doc );
         if(!dataset){

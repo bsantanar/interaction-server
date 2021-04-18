@@ -8,9 +8,9 @@ const bcrypt = require('bcryptjs');
 
 router.get('/', checkToken, async (req, res) => {
     try {
-        const { params } = req;
+        const { query } = req;
         let user = null;
-        await User.find(params, {password: 0}).populate('projects')
+        await User.find(query, {password: 0}).populate('projects')
                     .then( doc => user = doc );
         if(!user){
             return res.status(400).json({ ok: false, message: 'User not found', data: user });

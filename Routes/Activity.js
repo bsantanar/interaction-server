@@ -6,12 +6,11 @@ const Schemas = require('../Schemas/Schemas');
 
 router.get('/', async (req, res) => {
     try {
-        const { params } = req;
+        const { query } = req;
         let activity = null;
         // let user = req.user.data
-        let query = {...params}
         //if(user.userType > 1) query['projectId'] = {$in: user.projects}
-        await Activity.find(query).populate('projectId category')
+        await Activity.find(query).populate('projectId category', '_id name priority')
                 .then( doc => activity = doc );
         if(!activity){
             return res.status(400).json({ ok: false, message: 'Activity not found', data: activity });
@@ -29,7 +28,7 @@ router.get('/dashboard', checkToken, async (req, res) => {
         let user = req.user.data
         let query = {...params}
         if(user.userType > 1) query['projectId'] = {$in: user.projects}
-        await Activity.find(query).populate('projectId category')
+        await Activity.find(query).populate('projectId category', '_id name priority')
                 .then( doc => activity = doc );
         if(!activity){
             return res.status(400).json({ ok: false, message: 'Activity not found', data: activity });
@@ -63,7 +62,9 @@ router.put('/', checkToken, async (req, res) => {
         console.log("Updating activity", body);
         const { condition, data } = body;
         let activity = null;
-        await Activity.findOneAndUpdate(condition, data, { new: true }).then( doc => activity = doc );
+        await Activity.findOneAndUpdate(condition, data, { new: true })
+                    .populate('projectId category', '_id name priority')
+                    .then( doc => activity = doc );
         if(!activity){
             return res.status(400).json({ ok: false, message: 'Activity not found', data: activity });
         }

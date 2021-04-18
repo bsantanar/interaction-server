@@ -42,14 +42,15 @@ const schemas = {
     link: Joi.string().uri().required(),
     yearInit: Joi.number().required().min(1800).max(2200),
     yearEnd: Joi.number().optional().min(1800).max(2200).allow(null),
-    image: Joi.string().optional()
+    image: Joi.string().optional(),
+    personalPage: Joi.boolean().optional().default(false)
   }),
   activity: Joi.object().keys({
     title: Joi.string().required(),
     date: Joi.date().required(),
     description: Joi.string().required(),
     category: Joi.array().items(Joi.string()).required(),
-    projectId: Joi.string().required(),
+    projectId: Joi.array().items(Joi.string()).optional(),
     image: Joi.string().optional(),
     link: Joi.string().optional().empty('')
   }),

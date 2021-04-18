@@ -8,9 +8,8 @@ const transporter = nodemailer.createTransport(CONSTANTS.SMTP_CONFIG)
 
 router.get('/', async (req, res) => {
     try {
-        const { params } = req;
+        const { query } = req;
         let requestDataset = null;
-        let query = {...params}
         await RequestDataset.find(query)
                 .then( doc => requestDataset = doc );
         if(!requestDataset){

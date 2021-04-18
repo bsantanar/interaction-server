@@ -25,10 +25,9 @@ router.get('/', async (req, res) => {
 
 router.get('/dashboard', checkToken, async (req, res) => {
     try {
-        const { params } = req;
+        const { query } = req;
         let resource = null;
         let user = req.user.data
-        let query = {...params}
         if(user.userType > 1) query['projectId'] = {$in: user.projects}
         await Resource.find(query)
                 .populate('projectId')

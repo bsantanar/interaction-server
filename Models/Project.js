@@ -26,6 +26,10 @@ const projectSchema = new Schema({
     },
     yearEnd: {
         type: Number
+    },
+    personalPage: {
+        type: Boolean,
+        default: false
     }
 });
 

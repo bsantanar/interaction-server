@@ -6,9 +6,9 @@ const Schemas = require('../Schemas/Schemas');
 
 router.get('/', async (req, res) => {
     try {
-        const { params } = req;
+        const { query } = req;
         let project = null;
-        await Project.find(params).then( doc => project = doc );
+        await Project.find(query).then( doc => project = doc );
         if(!project){
             return res.status(400).json({ ok: false, message: 'Project not found', data: project });
         }

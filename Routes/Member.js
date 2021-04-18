@@ -68,7 +68,7 @@ router.put('/', checkToken, async (req, res) => {
         const { condition, data } = body;
         let member = null;
         await Member.findOneAndUpdate(condition, data, { new: true })
-                .populate('projectsIds category')
+                .populate('projectsIds category', '_id name priority')
                 .then( doc => member = doc );
         if(!member){
             return res.status(400).json({ ok: false, message: 'Member not found', data: member });

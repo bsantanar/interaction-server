@@ -16,10 +16,10 @@ const activitySchema = new Schema({
     description: {
         type: String
     },
-    projectId: {
+    projectId: [{
         type: mongoose.Types.ObjectId,
         ref: 'Project'
-    },
+    }],
     image: {
         type: Buffer
     },
