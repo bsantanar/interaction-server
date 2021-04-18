@@ -75,7 +75,8 @@ const schemas = {
   }),
   category: Joi.object().keys({
     name: Joi.string().required(),
-    section: Joi.string().valid(...CONSTANTS.CATEGORIES_SECTIONS)
+    section: Joi.string().valid(...CONSTANTS.CATEGORIES_SECTIONS),
+    priority: Joi.number().min(1).default(1).optional()
   }),
   requestDataset: Joi.object().keys({
     fullName: Joi.string().required(),

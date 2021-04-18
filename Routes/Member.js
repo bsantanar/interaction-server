@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         // let user = req.user.data
         let query = {...params}
         //if(user.userType > 1) query['projectsIds'] = {$in: user.projects}
-        await Member.find(query).populate('projectsIds category', '_id name')
+        await Member.find(query).populate('projectsIds category', '_id name priority')
                 .then( doc => member = doc );
         if(!member){
             return res.status(400).json({ ok: false, message: 'Member not found', data: member });
@@ -68,7 +68,7 @@ router.put('/', checkToken, async (req, res) => {
         const { condition, data } = body;
         let member = null;
         await Member.findOneAndUpdate(condition, data, { new: true })
-                .populate('projectsIds')
+                .populate('projectsIds category')
                 .then( doc => member = doc );
         if(!member){
             return res.status(400).json({ ok: false, message: 'Member not found', data: member });

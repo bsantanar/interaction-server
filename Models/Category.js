@@ -11,6 +11,10 @@ const categorySchema = new Schema({
     section: {
         type: String,
         required: [true, 'section is necessary']
+    },
+    priority: {
+        type: Number,
+        default: 1
     }
 });
 
