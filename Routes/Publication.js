@@ -13,7 +13,8 @@ router.get('/', async (req, res) => {
         //     {projectId: {$in: user.projects}},
         //     {toolsId: {$in: user.tools}}
         // ]
-        await Publication.find(query).populate('projectId category', '_id name')
+        await Publication.find(query)
+                .populate('projectId category', '_id name priority')
                 .then( doc => publication = doc );
         if(!publication){
             return res.status(400).json({ ok: false, message: 'Publication not found', data: publication });
@@ -33,7 +34,8 @@ router.get('/dashboard', checkToken, async (req, res) => {
         if(user.userType > 1) query['$or'] = [
             {projectId: {$in: user.projects}}
         ]
-        await Publication.find(query).populate('projectId category', '_id name')
+        await Publication.find(query)
+                .populate('projectId category', '_id name')
                 .then( doc => publication = doc );
         if(!publication){
             return res.status(400).json({ ok: false, message: 'Publication not found', data: publication });
