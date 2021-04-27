@@ -13,6 +13,9 @@ router.get('/', async (req, res) => {
         //     {projectId: {$in: user.projects}},
         //     {toolsId: {$in: user.tools}}
         // ]
+        // if(query['projectId']){
+        //     query['projectId'] = {$in: [query['projectId']]}
+        // }
         await Publication.find(query)
                 .populate('projectId category', '_id name priority')
                 .then( doc => publication = doc );

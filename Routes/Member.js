@@ -6,10 +6,8 @@ const Schemas = require('../Schemas/Schemas');
 
 router.get('/', async (req, res) => {
     try {
-        const { params } = req;
+        const { query } = req;
         let member = null;
-        // let user = req.user.data
-        let query = {...params}
         //if(user.userType > 1) query['projectsIds'] = {$in: user.projects}
         await Member.find(query).populate('projectsIds category', '_id name priority')
                 .then( doc => member = doc );
