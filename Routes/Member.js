@@ -10,14 +10,20 @@ router.get('/', async (req, res) => {
         let member = null;
         //if(user.userType > 1) query['projectsIds'] = {$in: user.projects}
         await Member
-                .aggregate.sample(process.env.SAMPLE_MEMBER)
                 .find(query)
                 .populate('projectsIds category', '_id name priority')
                 .then( doc => member = doc );
+        let shuffledMembers = member.sort(() => 0.5 - Math.random());
         if(!member){
             return res.status(400).json({ ok: false, message: 'Member not found', data: member });
         }
-        return res.status(200).json({ ok: true, message: 'Member fetched', data: member});
+        return res.status(200)
+            .json(
+                { 
+                    ok: true, 
+                    message: 'Member fetched', 
+                    data: shuffledMembers.slice(0, process.env.SAMPLE_MEMBER)
+                });
     } catch (e) {
         return res.status(500).json({ ok: false, message: 'Internal server Error', data: e });
     }
