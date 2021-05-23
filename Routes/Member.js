@@ -9,7 +9,10 @@ router.get('/', async (req, res) => {
         const { query } = req;
         let member = null;
         //if(user.userType > 1) query['projectsIds'] = {$in: user.projects}
-        await Member.find(query).populate('projectsIds category', '_id name priority')
+        await Member
+                .aggregate.sample(process.env.SAMPLE_MEMBER)
+                .find(query)
+                .populate('projectsIds category', '_id name priority')
                 .then( doc => member = doc );
         if(!member){
             return res.status(400).json({ ok: false, message: 'Member not found', data: member });
