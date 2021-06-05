@@ -13,7 +13,6 @@ router.get('/', async (req, res) => {
                 .find(query)
                 .populate('projectsIds category', '_id name priority')
                 .then( doc => member = doc );
-        let shuffledMembers = member.sort(() => 0.5 - Math.random());
         if(!member){
             return res.status(400).json({ ok: false, message: 'Member not found', data: member });
         }
@@ -22,7 +21,7 @@ router.get('/', async (req, res) => {
                 { 
                     ok: true, 
                     message: 'Member fetched', 
-                    data: shuffledMembers.slice(0, process.env.SAMPLE_MEMBER)
+                    data: member
                 });
     } catch (e) {
         return res.status(500).json({ ok: false, message: 'Internal server Error', data: e });
