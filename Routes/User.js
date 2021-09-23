@@ -93,7 +93,7 @@ router.put('/', checkToken, async (req, res) => {
         const { condition, data } = body;
         if(data.password){
             const salt = bcrypt.genSaltSync();
-            body.password = bcrypt.hashSync(body.password, salt);
+            data.password = bcrypt.hashSync(data.password, salt);
         }
         let newUser = null;
         await User.findOneAndUpdate(condition, data,{ new: true }).then( doc => newUser = doc );
